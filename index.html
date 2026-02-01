@@ -1,381 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Генератор Списка Заданий для Genially</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .header h1 {
-            font-size: 48px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 12px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .header p {
-            font-size: 18px;
-            color: rgba(255,255,255,0.9);
-        }
-
-        .main-grid {
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        @media (max-width: 1200px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .panel {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-
-        .panel h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .panel h2::before {
-            content: '';
-            width: 4px;
-            height: 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 2px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .form-group textarea {
-            width: 100%;
-            min-height: 150px;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 15px;
-            font-family: 'Inter', sans-serif;
-            resize: vertical;
-            transition: border-color 0.2s;
-        }
-
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .form-group select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 15px;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            background: #ffffff;
-            transition: border-color 0.2s;
-        }
-
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            user-select: none;
-            margin-bottom: 12px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: #667eea;
-        }
-
-        .preview-container {
-            background: #f5f5f5;
-            border-radius: 12px;
-            padding: 20px;
-            height: 600px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .preview-wrapper {
-            width: 400px;
-            height: 500px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            border-radius: 24px;
-            overflow: hidden;
-        }
-
-        #preview {
-            width: 100%;
-            height: 100%;
-        }
-
-        .code-output {
-            background: #1e1e1e;
-            border-radius: 12px;
-            padding: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .code-output pre {
-            margin: 0;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            color: #d4d4d4;
-            line-height: 1.5;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #28a745;
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
-        }
-
-        .copy-notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #28a745;
-            color: #ffffff;
-            padding: 16px 24px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            font-weight: 600;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        .copy-notification.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .info-box {
-            background: #e3f2fd;
-            border-left: 4px solid #2196f3;
-            padding: 14px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .info-box p {
-            font-size: 13px;
-            color: #1565c0;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        .info-box strong {
-            color: #0d47a1;
-        }
-
-        .divider {
-            height: 1px;
-            background: #e0e0e0;
-            margin: 20px 0;
-        }
-
-        .size-info {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #856404;
-        }
-    </style>
-</head>
-<body>
-    <div class="copy-notification" id="notification">✓ Код скопирован!</div>
-
-    <div class="container">
-        <div class="header">
-            <h1>🎯 Генератор Списка Заданий</h1>
-            <p>Создайте компактный виджет для Genially</p>
-        </div>
-
-        <div class="main-grid">
-            <!-- Левая панель - Настройки -->
-            <div class="panel">
-                <h2>Настройки виджета</h2>
-
-                <div class="info-box">
-                    <p><strong>Как использовать:</strong> Настройте виджет, нажмите "Сгенерировать код", скопируйте и вставьте в Genially через Insert → Embed HTML.</p>
-                </div>
-
-                <div class="size-info">
-                    💡 <strong>Размер виджета:</strong> Рекомендуемый размер 400×500px. Можно изменять прямо в Genially после вставки.
-                </div>
-
-                <!-- Список заданий -->
-                <div class="form-group">
-                    <label for="taskList">📝 Список заданий:</label>
-                    <textarea id="taskList" placeholder="Найди сок&#10;Найди стакан&#10;Найди подушку">Найди сок
-Найди стакан
-Найди подушку</textarea>
-                </div>
-
-                <div class="divider"></div>
-
-                <!-- Настройки -->
-                <div class="form-group">
-                    <label>Стиль отметки:</label>
-                    <select id="markStyleSelect">
-                        <option value="check">Галочка ✓</option>
-                        <option value="strikethrough">Зачёркивание</option>
-                        <option value="both" selected>Оба варианта</option>
-                    </select>
-                </div>
-
-                <div class="checkbox-group">
-                    <input type="checkbox" id="showNumbers" checked>
-                    <label for="showNumbers">Показать нумерацию</label>
-                </div>
-
-                <div class="checkbox-group">
-                    <input type="checkbox" id="showProgress" checked>
-                    <label for="showProgress">Показать прогресс-бар</label>
-                </div>
-
-                <div class="checkbox-group">
-                    <input type="checkbox" id="soundEnabled" checked>
-                    <label for="soundEnabled">Звук при клике</label>
-                </div>
-
-                <div class="divider"></div>
-
-                <button class="btn btn-primary" onclick="generateCode()">🚀 Сгенерировать код</button>
-                <button class="btn btn-secondary" onclick="copyCode()">📋 Скопировать код</button>
-            </div>
-
-            <!-- Правая панель - Превью -->
-            <div class="panel">
-                <h2>Предварительный просмотр</h2>
-                <div class="preview-container">
-                    <div class="preview-wrapper">
-                        <div id="preview"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Панель с кодом -->
-        <div class="panel">
-            <h2>Готовый код для Genially</h2>
-            <div class="info-box">
-                <p><strong>Как вставить в Genially:</strong> Скопируйте код → Откройте Genially → Insert → Embed → вставьте код → установите размер (рекомендуется 400×500px).</p>
-            </div>
-            <div class="code-output">
-                <pre id="codeOutput">// Нажмите "Сгенерировать код" для получения DIV кода</pre>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function generateWidgetCode() {
-            const taskList = document.getElementById('taskList').value;
-            const markStyle = document.getElementById('markStyleSelect').value;
-            const showNumbers = document.getElementById('showNumbers').checked;
-            const showProgress = document.getElementById('showProgress').checked;
-            const soundEnabled = document.getElementById('soundEnabled').checked;
-
-            const items = taskList.split('\n').filter(item => item.trim() !== '');
-            const itemsJSON = JSON.stringify(items);
-
-            return `<div id="FX_ROOT">
+<div id="FX_ROOT">
 <style>
     #FX_ROOT * {
         margin: 0;
@@ -543,10 +166,6 @@
         height: 20px;
     }
 
-    #FX_ROOT .hidden {
-        display: none;
-    }
-
     @keyframes headerBounce {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-5px); }
@@ -571,28 +190,23 @@
         background: #667eea;
         border-radius: 10px;
     }
-
-    #FX_ROOT .checklist-items::-webkit-scrollbar-thumb:hover {
-        background: #764ba2;
-    }
 </style>
 
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
 
 <div class="checklist-container">
     <div class="checklist-header">
-        <h2 id="checklist-title">🎯 Список Заданий</h2>
+        <h2>🎯 Список Заданий</h2>
     </div>
 
-    ${showProgress ? `<div class="progress-bar-container" id="progress-container">
+    <div class="progress-bar-container" id="progress-container">
         <div class="progress-bar" id="progress-bar">
             <span id="progress-text"></span>
         </div>
-    </div>` : ''}
+    </div>
 
     <div class="checklist-card">
         <div class="checklist-items" id="checklist-items"></div>
-
         <div class="checklist-controls">
             <button class="btn-reset" onclick="window.checklistWidget.reset()">
                 <span class="icon-rotate"></span>
@@ -605,11 +219,11 @@
 <script>
 (function() {
     const config = {
-        items: ${itemsJSON},
-        showNumbers: ${showNumbers},
-        showProgress: ${showProgress},
-        soundEnabled: ${soundEnabled},
-        markStyle: '${markStyle}'
+        items: ["Найди сок","Найди стакан","Найди подушку"],
+        showNumbers: true,
+        showProgress: true,
+        soundEnabled: true,
+        markStyle: 'both'
     };
 
     let completed = [];
@@ -625,15 +239,11 @@
             itemDiv.onclick = () => handleItemClick(index);
 
             let html = '';
-
-            if (config.showNumbers) {
-                html += \`<span class="item-number">\${index + 1}.</span>\`;
-            }
-
+            if (config.showNumbers) html += `<span class="item-number">${index + 1}.</span>`;
+            
             const textDecoration = isCompleted && (config.markStyle === 'strikethrough' || config.markStyle === 'both') ? 'line-through' : 'none';
             const opacity = isCompleted && (config.markStyle === 'strikethrough' || config.markStyle === 'both') ? '0.7' : '1';
-            
-            html += \`<span class="item-text" style="text-decoration: \${textDecoration}; opacity: \${opacity}">\${item}</span>\`;
+            html += `<span class="item-text" style="text-decoration: ${textDecoration}; opacity: ${opacity}">${item}</span>`;
 
             if (isCompleted && (config.markStyle === 'check' || config.markStyle === 'both')) {
                 html += '<svg class="icon-check item-check" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>';
@@ -675,7 +285,7 @@
             const progressText = document.getElementById('progress-text');
             const progress = config.items.length > 0 ? (completed.length / config.items.length) * 100 : 0;
             progressBar.style.width = progress + '%';
-            progressText.textContent = progress > 15 ? \`\${completed.length}/\${config.items.length}\` : '';
+            progressText.textContent = progress > 15 ? `${completed.length}/${config.items.length}` : '';
         }
     }
 
@@ -686,57 +296,8 @@
     }
 
     window.checklistWidget = { reset: reset };
-
     renderItems();
     updateProgress();
 })();
 </script>
-</div>`;
-        }
-
-        function generateCode() {
-            const code = generateWidgetCode();
-            document.getElementById('codeOutput').textContent = code;
-        }
-
-        function updatePreview() {
-            const code = generateWidgetCode();
-            const preview = document.getElementById('preview');
-            preview.innerHTML = code;
-        }
-
-        function copyCode() {
-            const code = document.getElementById('codeOutput').textContent;
-            if (code.includes('// Нажмите')) {
-                alert('Сначала нажмите "Сгенерировать код"!');
-                return;
-            }
-            
-            navigator.clipboard.writeText(code).then(() => {
-                showNotification();
-            }).catch(() => {
-                alert('Не удалось скопировать. Выделите код вручную и скопируйте.');
-            });
-        }
-
-        function showNotification() {
-            const notification = document.getElementById('notification');
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 2000);
-        }
-
-        // Автообновление превью
-        document.addEventListener('DOMContentLoaded', function() {
-            updatePreview();
-            
-            document.getElementById('taskList').addEventListener('input', updatePreview);
-            document.getElementById('markStyleSelect').addEventListener('change', updatePreview);
-            document.getElementById('showNumbers').addEventListener('change', updatePreview);
-            document.getElementById('showProgress').addEventListener('change', updatePreview);
-            document.getElementById('soundEnabled').addEventListener('change', updatePreview);
-        });
-    </script>
-</body>
-</html>
+</div>
